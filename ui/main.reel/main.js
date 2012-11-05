@@ -116,23 +116,56 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
                 i,
                 iFieldName,
                 personPropertyName,
-                personProperty;
+                personProperty,
+                value,
+                person = this.person,
+                title,
+                company,
+                email,
+                twitterHandle;
 
             labelFieldNames = this.activeLabel.getObjectNames();
 
-            //TODO move elsewhere
-            var fieldMapToPersonProperty = {
-                "personName": "name",
-                "content": "title"
-            };
-
             for (i = 0; (iFieldName = labelFieldNames[i]); i++) {
-                personPropertyName = fieldMapToPersonProperty[iFieldName];
 
-                if (personPropertyName) {
-                    personProperty = this.person[personPropertyName];
-                    this.activeLabel.setObjectText(iFieldName, personProperty ? personProperty : "");
+                if ("personName" === iFieldName) {
+                    value = this.person.name
+                } else if ("content" === iFieldName) {
+
+                    value = "";
+
+                    title = person.title;
+                    company = person.company;
+                    email = person.email;
+                    twitterHandle = person.twitterHandle;
+
+                    if (title) {
+                        value += title + "\n";
+                    }
+                    if (company) {
+                        value += company + "\n";
+                    }
+
+                    if (email || twitterHandle) {
+                        value += "\n";
+                    }
+
+                    if (email) {
+                        value += "email " + email + "\n";
+                    }
+                    if (twitterHandle) {
+                        value += "twitter @" + twitterHandle + "\n";
+                    }
+
+                } else if ("Barcode" === iFieldName) {
+                    if (twitterHandle) {
+                        value = "http://twitter.com/" + twitterHandle
+                    } else if (email) {
+                        value = "mailto://" + email;
+                    }
                 }
+
+                this.activeLabel.setObjectText(iFieldName, value ? value : "");
             }
         }
     },
