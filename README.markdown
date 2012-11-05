@@ -11,6 +11,15 @@ is in the DYMO SDK and printer drivers so YMMV.
 Install the latest DYMO Label Framework at the following location:
     node_modules/DYMO.Framework.latest.js
 
+2) Install the correct SDK for your platform:
+    http://sites.dymo.com/DeveloperProgram/Pages/Software_Development_Kit.aspx
+
+This should eventually be unnecessary as the DYMO JS Library will not rely on the
+NPAPI plugin.
+
+Neither the library nor the SDK are provided as part of this project, developers
+will need to evaluate and accept the DYMO licenses themselves.
+
 A reference implementation can be found from DYMO:
 http://labelwriter.com/software/dls/sdk/samples/js/VisitorManagement/VisitorManagement.html
 
