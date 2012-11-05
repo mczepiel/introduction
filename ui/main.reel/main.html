@@ -10,17 +10,66 @@
     {
         "owner": {
             "properties": {
-                "element": {"#": "main"}
+                "element": {"#": "main"},
+                "introductionForm": {"#": "introductionForm"},
+                "printPreview": {"@": "printPreview"}
             }
         },
 
-        "exampleText": {
-            "prototype": "montage/ui/dynamic-text.reel",
+        "nameField": {
+            "prototype": "montage/ui/input-text.reel",
             "properties": {
-                "element": {"#": "exampleText"}
+                "element": {"#": "nameField"}
             },
             "bindings": {
-                "value": {"<-": "@owner.thing"}
+                "value": {"<->": "@owner.person.name"}
+            }
+        },
+
+        "titleField": {
+            "prototype": "montage/ui/input-text.reel",
+            "properties": {
+                "element": {"#": "titleField"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.person.title"}
+            }
+        },
+
+        "companyField": {
+            "prototype": "montage/ui/input-text.reel",
+            "properties": {
+                "element": {"#": "companyField"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.person.company"}
+            }
+        },
+
+        "emailField": {
+            "prototype": "montage/ui/input-text.reel",
+            "properties": {
+                "element": {"#": "emailField"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.person.email"}
+            }
+        },
+
+        "twitterField": {
+            "prototype": "montage/ui/input-text.reel",
+            "properties": {
+                "element": {"#": "twitterField"}
+            },
+            "bindings": {
+                "value": {"<->": "@owner.person.twitterHandle"}
+            }
+        },
+
+        "printPreview": {
+            "prototype": "montage/ui/image.reel",
+            "properties": {
+                "element": {"#": "printPreview"}
             }
         }
     }
@@ -28,7 +77,18 @@
 </head>
 <body>
     <div data-montage-id="main" class="Main">
-        Hello, <span data-montage-id="exampleText"></span>
+
+        <form data-montage-id="introductionForm">
+            <label for="nameField">Name <input type="text" id="nameField" data-montage-id="nameField"></label>
+            <label for="titleField">Title <input type="text" id="titleField" data-montage-id="titleField"></label>
+            <label for="companyField">Company <input type="text" id="companyField" data-montage-id="companyField"></label>
+            <label for="emailField">Email <input type="text" id="emailField" data-montage-id="emailField"></label>
+            <label for="twitterField">Twitter <input type="text" id="twitterField" data-montage-id="twitterField"></label>
+            <input type="submit" label="Introduce yourself">
+        </form>
+
+        <img data-montage-id="printPreview">
+
     </div>
 </body>
 </html>

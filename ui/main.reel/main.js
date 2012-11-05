@@ -4,7 +4,8 @@
     @requires montage/ui/component
 */
 var Montage = require("montage").Montage,
-    Component = require("montage/ui/component").Component;
+    Component = require("montage/ui/component").Component,
+    Person = require("core/person").Person;
 
 /**
     Description TODO
@@ -13,8 +14,155 @@ var Montage = require("montage").Montage,
 */
 exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# */ {
 
-    thing: {
-        value: "World"
+    // The person we're printing a badge for
+    person: {
+        value: null
+    },
+
+    // The available printers
+    printers: {
+        value: null
+    },
+
+    // The current printer being used
+    activePrinter: {
+        value: null
+    },
+
+    // The label that will be used to print the badge
+    activeLabel: {
+        value: null
+    },
+
+    // The badge form element
+    introductionForm: {
+        value: null
+    },
+
+    // The image used to preview the badge
+    printPreview: {
+        value: null
+    },
+
+    didCreate: {
+        value: function () {
+
+            if (!dymo) {
+                console.log("DYMO library not available.");
+                return;
+            }
+
+            var layoutUrl = require.location + "assets/labels/hello.label";
+
+            this.isLoadingLabels = true;
+            var req = new XMLHttpRequest();
+            req.identifier = "labelRequest";
+            req.open("GET", layoutUrl);
+            req.addEventListener("load", this, false);
+            req.addEventListener("error", this, false);
+            req.send();
+
+            this.person = Person.create();
+            this.person.addPropertyChangeListener("name", this);
+            this.person.addPropertyChangeListener("title", this);
+            this.person.addPropertyChangeListener("company", this);
+            this.person.addPropertyChangeListener("email", this);
+            this.person.addPropertyChangeListener("twitterHandle", this);
+        }
+    },
+
+    handleChange: {
+        value: function (notification) {
+            console.log("change", notification);
+            this.updatePreview();
+        }
+    },
+
+    handleLabelRequestLoad:{
+        value:function (evt) {
+            this.activeLabel = dymo.label.framework.openLabelXml(evt.target.responseText);
+            this.isLoadingLabels = false;
+        }
+    },
+
+    handleLabelRequestError:{
+        value:function (evt) {
+            console.error("handleLabelRequestError", evt);
+            this.isLoadingLabels = false;
+        }
+    },
+
+    prepareForDraw: {
+        value: function () {
+            this.introductionForm.addEventListener("submit", this, false);
+            this.updatePreview();
+        }
+    },
+
+    handleSubmit: {
+        value: function (evt) {
+            evt.preventDefault();
+            this.print();
+        }
+    },
+
+    updateLabel: {
+        value: function () {
+            if (!this.activeLabel) {
+                return;
+            }
+
+            var labelFieldNames,
+                i,
+                iFieldName,
+                personPropertyName,
+                personProperty;
+
+            labelFieldNames = this.activeLabel.getObjectNames();
+
+            //TODO move elsewhere
+            var fieldMapToPersonProperty = {
+                "personName": "name",
+                "content": "title"
+            };
+
+            for (i = 0; (iFieldName = labelFieldNames[i]); i++) {
+                personPropertyName = fieldMapToPersonProperty[iFieldName];
+
+                if (personPropertyName) {
+                    personProperty = this.person[personPropertyName];
+                    this.activeLabel.setObjectText(iFieldName, personProperty ? personProperty : "");
+                }
+            }
+        }
+    },
+
+    updatePreview: {
+        value: function () {
+            if (!this.activeLabel) {
+                return;
+            }
+
+            this.updateLabel();
+
+            var imgData = this.activeLabel.render();
+            this.printPreview.src = "data:image/png;base64," + imgData;
+        }
+    },
+
+    print: {
+        value: function () {
+
+            if (!this.activeLabel) {
+                return;
+            }
+
+            this.updateLabel();
+
+            var printers = dymo.label.framework.getPrinters();
+            this.activePrinter = printers[0];
+            this.activeLabel.print(this.activePrinter.name);
+        }
     }
 
 });
