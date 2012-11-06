@@ -162,6 +162,8 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
                         value = "http://twitter.com/" + twitterHandle
                     } else if (email) {
                         value = "mailto://" + email;
+                    } else {
+                        value = "";
                     }
                 }
 
