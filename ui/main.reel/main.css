@@ -1,9 +1,82 @@
 .Main {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+}
 
+.Main form
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+
+    padding: 0 1em;
+}
+
+.Main label
+{
+    display: block;
+    padding: 1em 0 1em;
+}
+
+.Main label span
+{
+    display: inline-block;
+    width: 5em;
+    text-align: right;
+}
+
+.Main input
+{
+    font-size: 26px;
+}
+
+.Main input[type="text"]
+{
+    margin: 0 0 0 0.5em;
+    width: 16em;
+}
+
+.Main form .controls
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    box-pack: justify;
+
+    margin-left: 5.5em;
+}
+
+.Main form .controls input
+{
+    display: block;
+}
+
+.Main .previewArea
+{
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -box-align: center;
+
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    box-pack: center;
 }
 
 .Main img
 {
+    -webkit-transform: rotate(2deg);
     width: 500px;
     height: 300px;
 }

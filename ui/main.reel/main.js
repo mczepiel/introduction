@@ -95,6 +95,7 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
     prepareForDraw: {
         value: function () {
             this.introductionForm.addEventListener("submit", this, false);
+            this.introductionForm.addEventListener("reset", this, false);
             this.updatePreview();
         }
     },
@@ -103,6 +104,13 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
         value: function (evt) {
             evt.preventDefault();
             this.print();
+        }
+    },
+
+    handleReset:{
+        value:function (evt) {
+            evt.preventDefault();
+            this.person.reset();
         }
     },
 

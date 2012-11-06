@@ -24,6 +24,17 @@ exports.Person = Montage.create(Montage, {
 
     image: {
         value: null
+    },
+
+    reset: {
+        value: function () {
+            this.name = null;
+            this.email = null;
+            this.title = null;
+            this.company = null;
+            this.twitterHandle = null;
+            this.image = null;
+        }
     }
 
 });
