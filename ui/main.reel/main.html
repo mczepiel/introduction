@@ -11,8 +11,7 @@
         "owner": {
             "properties": {
                 "element": {"#": "main"},
-                "introductionForm": {"#": "introductionForm"},
-                "printPreview": {"@": "printPreview"}
+                "introductionForm": {"#": "introductionForm"}
             }
         },
 
@@ -67,9 +66,13 @@
         },
 
         "printPreview": {
-            "prototype": "montage/ui/image.reel",
+            "prototype": "ui/label-preview.reel",
             "properties": {
-                "element": {"#": "printPreview"}
+                "element": {"#": "print-preview"}
+            },
+            "bindings": {
+                "label": {"<-": "@owner.activeLabel"},
+                "person": {"<-": "@owner.person"}
             }
         }
     }
@@ -91,7 +94,7 @@
         </form>
 
         <div class="previewArea">
-            <img data-montage-id="printPreview">
+            <div data-montage-id="print-preview"></div>
         </div>
 
     </div>

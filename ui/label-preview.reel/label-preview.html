@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="label-preview.css">
+    <script type="text/montage-serialization">
+    {
+        "owner": {
+            "properties": {
+                "element": {"#": "label-preview"}
+            }
+        },
+
+        "previewImage": {
+            "prototype": "montage/ui/image.reel",
+            "properties": {
+                "element": {"#": "preview-image"}
+            },
+            "bindings": {
+                "src": {"<-": "@owner.imageData"}
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div data-montage-id="label-preview" class="LabelPreview">
+        <img data-montage-id="preview-image">
+    </div>
+</body>
+</html>
