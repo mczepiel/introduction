@@ -137,7 +137,8 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
             for (i = 0; (iFieldName = labelFieldNames[i]); i++) {
 
                 if ("personName" === iFieldName) {
-                    value = this.person.name
+                    //Apparently null or empty strings clear the text styles
+                    value = this.person.name ? this.person.name : " ";
                 } else if ("content" === iFieldName) {
 
                     value = "";
@@ -163,6 +164,11 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
                     }
                     if (twitterHandle) {
                         value += "twitter @" + twitterHandle + "\n";
+                    }
+
+                    if ("" === value) {
+                        // Preserve any formatting
+                        value = " ";
                     }
 
                 } else if ("Barcode" === iFieldName) {
