@@ -83,7 +83,7 @@
             <HorizontalAlignment>Left</HorizontalAlignment>
             <QuietZonesPadding Left="0" Top="0" Right="0" Bottom="0"/>
         </BarcodeObject>
-        <Bounds X="4800" Y="2000" Width="2880" Height="1435"/>
+        <Bounds X="4300" Y="1800" Width="2880" Height="1435"/>
     </ObjectInfo>
 
 

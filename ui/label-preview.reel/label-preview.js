@@ -27,18 +27,13 @@ exports.LabelPreview = Montage.create(Component, /** @lends module:"ui/label-pre
 
     didCreate: {
         value: function () {
-            this.addPropertyChangeListener("person.name", this);
-            this.addPropertyChangeListener("person.title", this);
-            this.addPropertyChangeListener("person.company", this);
-            this.addPropertyChangeListener("person.email", this);
-            this.addPropertyChangeListener("person.twitterHandle", this);
+            this.addPropertyChangeListener("person.mecard", this);
         }
     },
 
     handleChange: {
         value: function () {
             this.updateLabel();
-            this.needsDraw = true;
         }
     },
 
@@ -51,8 +46,6 @@ exports.LabelPreview = Montage.create(Component, /** @lends module:"ui/label-pre
             var labelFieldNames,
                 i,
                 iFieldName,
-                personPropertyName,
-                personProperty,
                 value,
                 person = this.person,
                 title,
@@ -90,6 +83,7 @@ exports.LabelPreview = Montage.create(Component, /** @lends module:"ui/label-pre
                     if (email) {
                         value += "email " + email + "\n";
                     }
+
                     if (twitterHandle) {
                         value += "twitter @" + twitterHandle + "\n";
                     }
@@ -100,17 +94,13 @@ exports.LabelPreview = Montage.create(Component, /** @lends module:"ui/label-pre
                     }
 
                 } else if ("Barcode" === iFieldName) {
-                    if (twitterHandle) {
-                        value = "http://twitter.com/" + twitterHandle
-                    } else if (email) {
-                        value = "mailto://" + email;
-                    } else {
-                        value = "";
-                    }
+                    value = person.mecard;
                 }
 
-                this.label.setObjectText(iFieldName, value ? value : "");
+                this.label.setObjectText(iFieldName, value ? value : " ");
             }
+
+            this.needsDraw = true;
         }
     },
 
