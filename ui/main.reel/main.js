@@ -124,7 +124,7 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
             var printers = dymo.label.framework.getPrinters();
             this.activePrinter = printers[0];
             this.activeLabel.print(this.activePrinter.name);
-            this.nameField.element.focus();
+            this.reset();
         }
     }
 
