@@ -104,7 +104,7 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
     print: {
         value: function () {
 
-            if (!this.activeLabel) {
+            if (!this.activeLabel || this.person.isBlank) {
                 return;
             }
 

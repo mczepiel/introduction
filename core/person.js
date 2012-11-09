@@ -37,6 +37,13 @@ exports.Person = Montage.create(Montage, {
         }
     },
 
+    isBlank: {
+        dependencies: ["name", "email", "title", "company", "twitterHandle", "image"],
+        get: function () {
+            return !(this.name || this.email || this.title || this.company || this.twitterHandle || this.image);
+        }
+    },
+
     mecard: {
         dependencies: ["name", "email", "title", "company", "twitterHandle", "image"],
         get: function () {
