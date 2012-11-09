@@ -11,7 +11,19 @@
         "owner": {
             "properties": {
                 "element": {"#": "main"},
-                "introductionForm": {"#": "introductionForm"}
+                "introductionForm": {"#": "introductionForm"},
+                "nameField": {"@": "nameField"}
+            }
+        },
+
+        "nameText": {
+            "prototype": "montage/ui/dynamic-text.reel",
+            "properties": {
+                "element": {"#": "nameText"},
+                "defaultValue": "…"
+            },
+            "bindings": {
+                "value": {"<-": "@owner.person.name"}
             }
         },
 
@@ -81,21 +93,27 @@
 <body>
     <div data-montage-id="main" class="Main">
 
-        <form data-montage-id="introductionForm">
-            <label for="nameField"><span>Name</span> <input type="text" id="nameField" data-montage-id="nameField"></label>
-            <label for="titleField"><span>Title</span> <input type="text" id="titleField" data-montage-id="titleField"></label>
-            <label for="companyField"><span>Company</span> <input type="text" id="companyField" data-montage-id="companyField"></label>
-            <label for="emailField"><span>Email</span> <input type="text" id="emailField" data-montage-id="emailField"></label>
-            <label for="twitterField"><span>Twitter</span> <input type="text" id="twitterField" data-montage-id="twitterField"></label>
-            <div class="controls">
-                <input type="reset" value="Reset badge">
-                <input type="submit" value="Print badge">
-            </div>
-        </form>
+        <header>
+            <h1>Hello <span data-montage-id="nameText"></span></h1>
+        </header>
 
-        <div class="previewArea">
-            <div data-montage-id="print-preview"></div>
-        </div>
+        <section class="welcomeDesk">
+            <form data-montage-id="introductionForm">
+                <label for="nameField"><span>Name</span> <input type="text" id="nameField" data-montage-id="nameField"></label>
+                <label for="titleField"><span>Title</span> <input type="text" id="titleField" data-montage-id="titleField"></label>
+                <label for="companyField"><span>Company</span> <input type="text" id="companyField" data-montage-id="companyField"></label>
+                <label for="emailField"><span>Email</span> <input type="text" id="emailField" data-montage-id="emailField"></label>
+                <label for="twitterField"><span>Twitter</span> <input type="text" id="twitterField" data-montage-id="twitterField"></label>
+                <div class="controls">
+                    <input type="reset" value="Reset badge">
+                    <input type="submit" value="Print badge">
+                </div>
+            </form>
+
+            <div class="previewArea">
+                <div data-montage-id="print-preview"></div>
+            </div>
+        </section>
 
     </div>
 </body>

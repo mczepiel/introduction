@@ -24,6 +24,10 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
         value: null
     },
 
+    nameField: {
+        value: null
+    },
+
     // The current printer being used
     activePrinter: {
         value: null
@@ -84,6 +88,8 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
         value: function () {
             this.introductionForm.addEventListener("submit", this, false);
             this.introductionForm.addEventListener("reset", this, false);
+
+            this.nameField.element.focus();
         }
     },
 
@@ -97,7 +103,14 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
     handleReset:{
         value:function (evt) {
             evt.preventDefault();
+            this.reset();
+        }
+    },
+
+    reset: {
+        value: function () {
             this.person.reset();
+            this.nameField.element.focus();
         }
     },
 
@@ -111,6 +124,7 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
             var printers = dymo.label.framework.getPrinters();
             this.activePrinter = printers[0];
             this.activeLabel.print(this.activePrinter.name);
+            this.nameField.element.focus();
         }
     }
 

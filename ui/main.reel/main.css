@@ -1,4 +1,17 @@
-.Main {
+.Main header
+{
+    color: hsl(0, 0%, 0%);
+    text-shadow: 0 2px 7px hsla(0, 0%, 20%, 0.2);
+}
+
+.Main h1
+{
+    margin: 0;
+    padding: 0;
+    line-height: 2em;
+}
+
+.Main .welcomeDesk {
     display: -webkit-box;
     display: -moz-box;
     display: box;
