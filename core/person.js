@@ -1,6 +1,22 @@
-var Montage = require("montage").Montage;
+var Montage = require("montage/core/core").Montage;
 
-exports.Person = Montage.create(Montage, {
+exports.Person = Montage.specialize({
+
+    constructor: {
+        value: function Person () {
+            this.defineBinding("isPopulated", {"<-": "name || email || title || company || twitterHandle || image"});
+
+
+            ["name", "email", "title", "company", "twitterHandle", "image"].forEach(function (property) {
+                this.addPathChangeListener(property, this, "_meCardWillChange", true);
+                this.addPathChangeListener(property, this, "_meCardDidChange");
+            }, this);
+        }
+    },
+
+    isPopulated: {
+        value: false
+    },
 
     name: {
         value: null
@@ -37,15 +53,19 @@ exports.Person = Montage.create(Montage, {
         }
     },
 
-    isBlank: {
-        dependencies: ["name", "email", "title", "company", "twitterHandle", "image"],
-        get: function () {
-            return !(this.name || this.email || this.title || this.company || this.twitterHandle || this.image);
+   _meCardWillChange: {
+        value: function () {
+            this.dispatchBeforeOwnPropertyChange("mecard", this.mecard);
+        }
+    },
+
+    _meCardDidChange: {
+        value: function () {
+            this.dispatchOwnPropertyChange("mecard", this.mecard);
         }
     },
 
     mecard: {
-        dependencies: ["name", "email", "title", "company", "twitterHandle", "image"],
         get: function () {
 
             var card = "MECARD:";

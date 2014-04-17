@@ -1,17 +1,6 @@
-/**
-    @module "ui/label-preview.reel"
-    @requires montage
-    @requires montage/ui/component
-*/
-var Montage = require("montage").Montage,
-    Component = require("montage/ui/component").Component;
+var Component = require("montage/ui/component").Component;
 
-/**
-    Description TODO
-    @class module:"ui/label-preview.reel".LabelPreview
-    @extends module:montage/ui/component.Component
-*/
-exports.LabelPreview = Montage.create(Component, /** @lends module:"ui/label-preview.reel".LabelPreview# */ {
+exports.LabelPreview = Component.specialize({
 
     person: {
         value: null
@@ -27,7 +16,7 @@ exports.LabelPreview = Montage.create(Component, /** @lends module:"ui/label-pre
 
     didCreate: {
         value: function () {
-            this.addPropertyChangeListener("person.mecard", this);
+            this.addPathChangeListener("person.mecard", this, "handleChange");
         }
     },
 

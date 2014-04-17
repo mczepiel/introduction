@@ -1,18 +1,31 @@
-/**
-    @module "ui/main.reel"
-    @requires montage
-    @requires montage/ui/component
-*/
-var Montage = require("montage").Montage,
-    Component = require("montage/ui/component").Component,
+var Component = require("montage/ui/component").Component,
     Person = require("core/person").Person;
 
-/**
-    Description TODO
-    @class module:"ui/main.reel".Main
-    @extends module:ui/component.Component
-*/
-exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# */ {
+exports.Main = Component.specialize({
+
+    constructor: {
+        value: function Main () {
+
+            this.super();
+
+            if (!dymo) {
+                console.log("DYMO library not available.");
+                return;
+            }
+
+            var layoutUrl = require.location + "assets/labels/hello.label";
+
+            this.isLoadingLabels = true;
+            var req = new XMLHttpRequest();
+            req.identifier = "labelRequest";
+            req.open("GET", layoutUrl);
+            req.addEventListener("load", this, false);
+            req.addEventListener("error", this, false);
+            req.send();
+
+            this.person = new Person();
+        }
+    },
 
     // The person we're printing a badge for
     person: {
@@ -48,28 +61,6 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
         value: null
     },
 
-    didCreate: {
-        value: function () {
-
-            if (!dymo) {
-                console.log("DYMO library not available.");
-                return;
-            }
-
-            var layoutUrl = require.location + "assets/labels/hello.label";
-
-            this.isLoadingLabels = true;
-            var req = new XMLHttpRequest();
-            req.identifier = "labelRequest";
-            req.open("GET", layoutUrl);
-            req.addEventListener("load", this, false);
-            req.addEventListener("error", this, false);
-            req.send();
-
-            this.person = Person.create();
-        }
-    },
-
     handleLabelRequestLoad:{
         value:function (evt) {
             this.activeLabel = dymo.label.framework.openLabelXml(evt.target.responseText);
@@ -84,12 +75,14 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
         }
     },
 
-    prepareForDraw: {
-        value: function () {
-            this.introductionForm.addEventListener("submit", this, false);
-            this.introductionForm.addEventListener("reset", this, false);
+    enterDocument: {
+        value: function (firstTime) {
+            if (firstTime) {
+                this.introductionForm.addEventListener("submit", this, false);
+                this.introductionForm.addEventListener("reset", this, false);
 
-            this.nameField.element.focus();
+                this.nameField.element.focus();
+            }
         }
     },
 
@@ -117,7 +110,7 @@ exports.Main = Montage.create(Component, /** @lends module:"ui/main.reel".Main# 
     print: {
         value: function () {
 
-            if (!this.activeLabel || this.person.isBlank) {
+            if (!(this.activeLabel && this.person.isPopulated)) {
                 return;
             }
 
